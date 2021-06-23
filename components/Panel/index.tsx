@@ -23,14 +23,14 @@ const Panel: FC<PanelProps> = ({ count, data }) => {
     }
   };
   return (
-    <div className="py-10 px-3 border-2 border-gray-100">
+    <div className="py-10 px-3 border-2 bg-white border-gray-100">
       <div className="flex justify-between items-end text-sm mb-10">
         <div>
           <header>
             <b>{count.toLocaleString()}</b> job postings
           </header>
         </div>
-        <ul className="flex space-x-4">
+        <ul className="md:flex space-x-4 sm:hidden">
           <li className="text-gray-400">Sort by</li>
           {SORT_KEYS.map((k) => {
             return (

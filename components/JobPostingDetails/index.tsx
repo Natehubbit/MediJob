@@ -72,29 +72,29 @@ const JobPostingDetails: FC<JobPostingDetailsProps> = ({
         {showJob && (
           <div className="px-2 text-sm my-2">
             <div className="md:flex md:space-x-4 mb-4">
-              <header className="w-1/3 font-bold">
+              <header className="md:w-1/3 font-bold">
                 Department
               </header>
-              <div className="w-1/3">
+              <div className="md:w-1/3">
                 {getDepartments(d.department)}
               </div>
-              <div className="w-1/3"></div>
+              <div className="md:w-1/3"></div>
             </div>
-            <div className="flex space-x-4 mb-4">
-              <header className="w-1/3 font-bold">
+            <div className="md:flex md:space-x-4 mb-4">
+              <header className="md:w-1/3 font-bold">
                 Hours/shifts
               </header>
-              <div className="w-1/3">
+              <div className="md:w-1/3">
                 {getHoursShift(d.hours, d.work_schedule)}
               </div>
-              <div className="w-1/3"></div>
+              <div className="md:w-1/3"></div>
             </div>
-            <div className="flex space-x-4 mb-4">
-              <header className="w-1/3 font-bold">
+            <div className="md:flex md:space-x-4 mb-4">
+              <header className="md:w-1/3 font-bold">
                 Summary
               </header>
-              <div className="w-1/3">{d.description}</div>
-              <div className="w-1/3 flex items-end flex-col">
+              <div className="md:w-1/3">{d.description}</div>
+              <div className="md:w-1/3 flex md:items-end sm:space-x-4 sm:my-4 md:flex-col">
                 <div className="mb-2">
                   <Button mode="solid" upperCase={false}>
                     Job Details

@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from "react";
+import React, { FC } from "react";
 import JobsService from "../services/JobsService";
 import SearchBox from "../components/SearchBox/index";
 import Card from "../components/Card/index";
@@ -11,9 +11,6 @@ interface JobsProps {
 }
 
 const Jobs: FC<JobsProps> = ({ jobs, filters }) => {
-  useEffect(() => {
-    console.log("JOBS:: ", jobs);
-  }, [jobs]);
   const getCardTitle = (title: string) => {
     if (title === "job_type") return "Job Type";
     if (title === "work_schedule") return "Work Schedule";
@@ -33,12 +30,12 @@ const Jobs: FC<JobsProps> = ({ jobs, filters }) => {
     return count;
   };
   return (
-    <div className="flex flex-col p-4 min-h-screen relative">
-      <div className="mb-4">
+    <div className="flex flex-col md:p-4 min-h-screen relative">
+      <div className="md:mb-4">
         <SearchBox />
       </div>
-      <div className="flex space-x-5 relative">
-        <div className="flex flex-col w-2/12 space-y-4">
+      <div className="flex md:space-x-5 relative">
+        <div className="md:flex sm:hidden flex-col w-2/12 space-y-4">
           {Object.keys(filters).map((k) => {
             const data = filters[k as any];
             return (
@@ -50,7 +47,7 @@ const Jobs: FC<JobsProps> = ({ jobs, filters }) => {
             );
           })}
         </div>
-        <div className="w-10/12 bg-white">
+        <div className="sm:w-full md:w-10/12">
           <Panel data={jobs} count={countJobs()} />
         </div>
       </div>

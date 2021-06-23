@@ -3,12 +3,14 @@ import React, { FC } from "react";
 interface ButtonProps {
   mode?: "outline" | "text" | "solid";
   upperCase?: boolean;
+  className?: string;
 }
 
 const Button: FC<ButtonProps> = ({
   children,
   mode,
   upperCase,
+  className,
 }) => {
   const label =
     upperCase || upperCase == undefined
@@ -25,7 +27,7 @@ const Button: FC<ButtonProps> = ({
   };
   return (
     <button
-      className={`bg-transparent text-sm rounded-lg font-bold hover:opacity-70 focus:outline-none ${getStyle()}`}
+      className={`bg-transparent text-sm rounded-lg font-bold hover:opacity-70 focus:outline-none ${getStyle()} ${className}`}
     >
       {label}
     </button>
