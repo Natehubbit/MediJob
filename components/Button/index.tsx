@@ -4,6 +4,7 @@ interface ButtonProps {
   mode?: "outline" | "text" | "solid";
   upperCase?: boolean;
   className?: string;
+  onClick?: () => void;
 }
 
 const Button: FC<ButtonProps> = ({
@@ -11,6 +12,7 @@ const Button: FC<ButtonProps> = ({
   mode,
   upperCase,
   className,
+  onClick,
 }) => {
   const label =
     upperCase || upperCase == undefined
@@ -27,6 +29,7 @@ const Button: FC<ButtonProps> = ({
   };
   return (
     <button
+      onClick={onClick && onClick}
       className={`bg-transparent text-sm rounded-lg font-bold hover:opacity-70 focus:outline-none ${getStyle()} ${className}`}
     >
       {label}

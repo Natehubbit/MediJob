@@ -59,14 +59,16 @@ const JobPostingDetails: FC<JobPostingDetailsProps> = ({
       <div>
         <div
           onClick={onClickJob}
-          className="border-t-2 py-4 px-2 flex text-sm justify-between items-center cursor-pointer"
+          className="border-t-2 py-4 px-2 md:flex text-sm justify-between items-center cursor-pointer"
         >
           <div>
             <header className="font-bold">{d.job_title}</header>
             <p className="text-xs">{getJobMeta(d)}</p>
           </div>
           <div>
-            <p>{moment(d.created).fromNow()}</p>
+            <p className="text-xs">
+              {moment(d.created).fromNow()}
+            </p>
           </div>
         </div>
         {showJob && (

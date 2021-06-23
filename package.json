@@ -10,15 +10,19 @@
   "dependencies": {
     "@types/react": "^17.0.11",
     "axios": "^0.21.1",
+    "lodash": "^4.17.21",
     "moment": "^2.29.1",
     "nanoid": "^3.1.23",
     "next": "10.0.3",
     "prettier": "^2.3.1",
     "react": "17.0.1",
     "react-dom": "17.0.1",
-    "react-feather": "^2.0.9"
+    "react-feather": "^2.0.9",
+    "swr": "^0.5.6"
   },
   "devDependencies": {
+    "@types/express": "^4.17.12",
+    "@types/lodash": "^4.14.170",
     "@types/node": "^15.12.4",
     "autoprefixer": "^10.2.6",
     "postcss": "^8.3.5",
