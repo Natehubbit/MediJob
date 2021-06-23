@@ -1,23 +1,18 @@
 import React, {
+  FC,
   FocusEventHandler,
   KeyboardEventHandler,
   useRef,
-  useState,
 } from "react";
-import { FC } from "react";
 import { Search } from "react-feather";
-import JobsService from "../../services/JobsService";
 
 interface SearchBoxProps {
   setJobsData: (val: any[]) => void;
   setSearchString: (val: string) => void;
-  searching: boolean;
+  searching?: boolean;
 }
 
-const SearchBox: FC<SearchBoxProps> = ({
-  setSearchString,
-  searching,
-}) => {
+const SearchBox: FC<SearchBoxProps> = ({ setSearchString }) => {
   const ref = useRef<HTMLInputElement>();
   const onClick = () => {
     ref.current && ref.current.focus();
@@ -54,9 +49,6 @@ const SearchBox: FC<SearchBoxProps> = ({
           placeholder="Search for any job, title, keywords or company"
         />
       </div>
-      {searching && (
-        <p className="text-sm text-right">Searching...</p>
-      )}
     </div>
   );
 };

@@ -11,7 +11,6 @@ const Autocomplete: FC<AutocompleteProps> = ({ data }) => {
     <ul className="max-h-60 flex flex-col absolute w-full shadow-2xl overflow-auto z-50">
       {data &&
         data.map((_, i) => {
-          console.log(_);
           return (
             <li
               className="cursor-pointer w-full z-50 bg-white p-1 px-4 hover:bg-blue-50"

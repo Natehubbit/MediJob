@@ -8,7 +8,7 @@ export default class JobsService {
       return res.data;
     } catch (e) {
       console.error(e);
-      return null;
+      return e.message;
     }
   }
   static async getFilters() {

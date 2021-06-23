@@ -1,9 +1,9 @@
-import React, { FC, useEffect } from "react";
-import { SORT_KEYS } from "../../common/constants";
-import JobPosting from "../JobPosting/index";
 import { nanoid } from "nanoid";
-import SortItem from "../SortItem";
+import React, { FC } from "react";
+import { SORT_KEYS } from "../../common/constants";
 import { FilterKeys } from "../../types/index";
+import JobPosting from "../JobPosting/index";
+import SortItem from "../SortItem";
 
 interface PanelProps {
   count: number;

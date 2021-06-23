@@ -1,5 +1,10 @@
 import { FilterKeys } from "../types/index";
 import _ from "lodash";
+import {
+  sortByNestedItemsKey,
+  sortParentByItemsKey,
+  sortParentByKeyAndNestedItem,
+} from "../util/index";
 
 export default class ApiService {
   static getJobByText(data: any[], text: string): null | any[] {
@@ -44,13 +49,32 @@ export default class ApiService {
 
   static sortJobsByFilters(data: any, filters: FilterKeys[]) {
     try {
-      console.log("DDD", data);
-      const result: any = null;
-      filters.forEach((key) => {
-        if (key === "Department") {
-          // data.forEach((d) => {});
-        }
-      });
+      let result: any = data;
+      filters &&
+        filters.forEach((key) => {
+          if (key === "Location") {
+            result = sortParentByItemsKey(result, "city");
+          }
+          if (key === "Role") {
+            result = sortParentByKeyAndNestedItem(
+              result,
+              "job_title"
+            );
+          }
+          if (key === "Experience") {
+            result = sortByNestedItemsKey(result, "experience");
+          }
+          if (key === "Department") {
+            result = sortByNestedItemsKey(result, "department");
+          }
+          if (key === "Education") {
+            result = sortByNestedItemsKey(
+              result,
+              "required_credentials"
+            );
+          }
+        });
+      return result;
     } catch (e) {
       console.error(e);
       return null;

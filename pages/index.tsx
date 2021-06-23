@@ -5,15 +5,20 @@ import Card from "../components/Card/index";
 import Panel from "../components/Panel/index";
 import { GetStaticProps } from "next";
 import { FilterKeys } from "../types/index";
+import {
+  getCardTitle,
+  getItems,
+  countJobs,
+} from "../util/index";
 
 interface JobsProps {
-  jobs: any[];
+  jobs: any[] | null;
   filters: any;
 }
 
 const Jobs: FC<JobsProps> = ({ jobs, filters }) => {
   const mountRef = useRef(false);
-  const [jobsData, setJobsData] = useState<any[]>(jobs);
+  const [jobsData, setJobsData] = useState<any[] | null>(jobs);
   const [searchString, setSearchString] = useState<
     string | undefined
   >(undefined);
@@ -46,24 +51,6 @@ const Jobs: FC<JobsProps> = ({ jobs, filters }) => {
   const onClearFilters = () => {
     setSort([]);
   };
-  const getCardTitle = (title: string) => {
-    if (title === "job_type") return "Job Type";
-    if (title === "work_schedule") return "Work Schedule";
-    return title;
-  };
-  const getItems = (data: any[]) => {
-    return data.map((d) => ({
-      item: d.key,
-      count: d.doc_count,
-    }));
-  };
-  const countJobs = () => {
-    let count = 0;
-    jobsData.forEach((j) => {
-      count += j.total_jobs_in_hospital;
-    });
-    return count;
-  };
   return (
     <div className="flex flex-col md:p-4 min-h-screen relative">
       <div className="md:mb-4">
@@ -89,9 +76,9 @@ const Jobs: FC<JobsProps> = ({ jobs, filters }) => {
         <div className="sm:w-full md:w-10/12">
           <Panel
             loading={searching}
-            data={jobsData}
+            data={jobsData || []}
             onSortSelected={onSortSelected}
-            count={countJobs()}
+            count={countJobs(jobsData)}
             filters={sort}
             onClearFilters={() => onClearFilters()}
           />
@@ -104,14 +91,15 @@ const Jobs: FC<JobsProps> = ({ jobs, filters }) => {
 export const getStaticProps: GetStaticProps = async () => {
   const jobsData = await JobsService.getJobs();
   const filtersData = await JobsService.getFilters();
-  if (!filtersData || !jobsData?.jobs) {
-    return {
-      redirect: {
-        destination: "/404",
-        permanent: false,
-      },
-    };
-  }
+
+  // if (!filtersData || !jobsData?.jobs) {
+  //   return {
+  //     redirect: {
+  //       destination: "/404",
+  //       permanent: false,
+  //     },
+  //   };
+  // }
   return {
     props: {
       jobs: jobsData?.jobs || null,

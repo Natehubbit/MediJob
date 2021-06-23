@@ -2,7 +2,7 @@
 import { Request, Response } from "express";
 import filters from "../../data/filters.json";
 
-export default (req: Request, res: Response) => {
+export default (_: Request, res: Response) => {
   res.statusCode = 200;
   res.json(filters);
 };

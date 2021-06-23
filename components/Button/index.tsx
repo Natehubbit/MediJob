@@ -12,7 +12,7 @@ const Button: FC<ButtonProps> = ({
   mode,
   upperCase,
   className,
-  onClick,
+  onClick: onClicked,
 }) => {
   const label =
     upperCase || upperCase == undefined
@@ -29,7 +29,7 @@ const Button: FC<ButtonProps> = ({
   };
   return (
     <button
-      onClick={onClick && onClick}
+      onClick={onClicked && onClicked}
       className={`bg-transparent text-sm rounded-lg font-bold hover:opacity-70 focus:outline-none ${getStyle()} ${className}`}
     >
       {label}
