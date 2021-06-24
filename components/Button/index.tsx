@@ -30,7 +30,7 @@ const Button: FC<ButtonProps> = ({
   return (
     <button
       onClick={onClicked && onClicked}
-      className={`bg-transparent text-sm rounded-lg font-bold hover:opacity-70 focus:outline-none ${getStyle()} ${className}`}
+      className={`bg-transparent overflow-ellipsis whitespace-nowrap text-sm rounded-lg font-bold hover:opacity-70 focus:outline-none ${getStyle()} ${className}`}
     >
       {label}
     </button>

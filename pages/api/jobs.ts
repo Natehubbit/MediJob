@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import jobs from "../../data/jobs.json";
 import ApiService from "../../services/ApiService";
-import { FilterKeys } from "../../types/index";
+import { FilterType } from "../../types/index";
 
 export default async (req: Request, res: Response) => {
   try {
@@ -14,10 +14,12 @@ export default async (req: Request, res: Response) => {
     if (query?.q) {
       result = ApiService.getJobByText(jobs, query.q as string);
     }
-    if ((query?.["filters[]"] as FilterKeys[])?.length > 0) {
+    if ((query?.["filters[]"] as FilterType[])?.length > 0) {
       let filters = query?.["filters[]"] as any;
       if (typeof filters === "string") {
-        filters = [filters];
+        filters = [JSON.parse(filters)];
+      } else {
+        filters = filters.map((f: string) => JSON.parse(f));
       }
       const data = ApiService.sortJobsByFilters(
         result || jobs,
@@ -37,6 +39,7 @@ export default async (req: Request, res: Response) => {
 
     return res.json({ jobs: result || jobs });
   } catch (e) {
+    console.log(e.message);
     return res.status(500).end();
   }
 };

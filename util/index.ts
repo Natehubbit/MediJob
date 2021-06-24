@@ -2,23 +2,36 @@ import _ from "lodash";
 
 export const sortParentByKeyAndNestedItem = (
   data: any,
-  key: string
+  key: string,
+  order: "asc" | "desc"
 ) => {
-  const result = _.sortBy(data, [(o: any) => o[key]]);
+  const result = _.orderBy(data, [(o: any) => o[key]], [order]);
   const newResult = result.map((r: any) => {
-    const newItems = _.sortBy(r.items, [(o: any) => o[key]]);
+    const newItems = _.orderBy(r.items, (o: any) => o[key], [
+      order,
+    ]);
     return { ...r, items: newItems };
   });
   return newResult;
 };
 
-export const sortParentByItemsKey = (data: any, key: string) => {
-  return _.sortBy(data, [(o: any) => o.items[0][key]]);
+export const sortParentByItemsKey = (
+  data: any,
+  key: string,
+  order: "asc" | "desc"
+) => {
+  return _.orderBy(data, (o: any) => o.items[0][key], [order]);
 };
 
-export const sortByNestedItemsKey = (data: any, key: string) => {
+export const sortByNestedItemsKey = (
+  data: any,
+  key: string,
+  order: "asc" | "desc"
+) => {
   const newResult = data.map((r: any) => {
-    const newItems = _.sortBy(r.items, [(o: any) => o[key]]);
+    const newItems = _.orderBy(r.items, (o: any) => o[key], [
+      order,
+    ]);
     return { ...r, items: newItems };
   });
   return newResult;

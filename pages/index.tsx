@@ -4,7 +4,7 @@ import SearchBox from "../components/SearchBox/index";
 import Card from "../components/Card/index";
 import Panel from "../components/Panel/index";
 import { GetStaticProps } from "next";
-import { FilterKeys } from "../types/index";
+import { FilterKeys, FilterType } from "../types/index";
 import {
   getCardTitle,
   getItems,
@@ -23,12 +23,13 @@ const Jobs: FC<JobsProps> = ({ jobs, filters }) => {
     string | undefined
   >(undefined);
   const [searching, setSearching] = useState(false);
-  const [sort, setSort] = useState<FilterKeys[]>([]);
+  const [sort, setSort] = useState<FilterType[]>([]);
   useEffect(() => {
     if (mountRef.current) {
       fetchJobsData();
     }
     mountRef.current = true;
+    console.log(searchString);
   }, [sort, searchString]);
   const fetchJobsData = async () => {
     setSearching(true);
@@ -37,16 +38,23 @@ const Jobs: FC<JobsProps> = ({ jobs, filters }) => {
     setSearching(false);
   };
   const onSortSelected = (
-    action: "add" | "remove",
+    action: "asc" | "desc",
     val: FilterKeys
   ) => {
-    if (action === "add") {
-      setSort((s) => [...s, val]);
-    } else {
-      setSort((s) => {
-        return s.filter((v) => v !== val);
-      });
-    }
+    setSort((s) => {
+      const filterExists =
+        s.filter((f) => Object.keys(f)[0] === val).length > 0;
+      if (filterExists) {
+        return s.map((v) => {
+          if (Object.keys(v)[0] === val) {
+            const order = v[val] === "asc" ? "desc" : "asc";
+            return { ...v, [val]: order };
+          }
+          return v;
+        });
+      }
+      return [...s, { [val]: action }];
+    });
   };
   const onClearFilters = () => {
     setSort([]);
@@ -91,15 +99,6 @@ const Jobs: FC<JobsProps> = ({ jobs, filters }) => {
 export const getStaticProps: GetStaticProps = async () => {
   const jobsData = await JobsService.getJobs();
   const filtersData = await JobsService.getFilters();
-
-  // if (!filtersData || !jobsData?.jobs) {
-  //   return {
-  //     redirect: {
-  //       destination: "/404",
-  //       permanent: false,
-  //     },
-  //   };
-  // }
   return {
     props: {
       jobs: jobsData?.jobs || null,

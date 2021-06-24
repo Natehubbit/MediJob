@@ -1,7 +1,6 @@
 import _ from "lodash";
 import { createMocks } from "node-mocks-http";
 import jobsHandler from "../pages/api/jobs";
-import { FilterKeys } from "../types/index";
 import {
   sortParentByKeyAndNestedItem,
   sortParentByItemsKey,
@@ -68,43 +67,51 @@ describe("String search endpoint parameters", () => {
 });
 
 describe("Search job by sort parameters", () => {
-  it("should sort results by department", async () => {
+  it("should sort results by department in ascending", async () => {
     const { req, res } = createMocks({
       method: "GET",
       query: {
-        "filters[]": "Department" as FilterKeys,
+        "filters[]": JSON.stringify({ Department: "asc" }),
       },
     });
     await jobsHandler(req, res);
     expect(res._getStatusCode()).toBe(200);
 
     const data = JSON.parse(res._getData()).jobs;
-    const sorted = sortByNestedItemsKey(data, "department");
+    const sorted = sortByNestedItemsKey(
+      data,
+      "department",
+      "asc"
+    );
     expect(data).toBeTruthy();
     expect(data).toEqual(sorted);
   });
 
-  it("should sort results by location", async () => {
+  it("should sort results by location in ascending order", async () => {
     const { req, res } = createMocks({
       method: "GET",
       query: {
-        "filters[]": "Location" as FilterKeys,
+        "filters[]": JSON.stringify({ Location: "asc" }),
       },
     });
     await jobsHandler(req, res);
     expect(res._getStatusCode()).toBe(200);
 
     const data = JSON.parse(res._getData()).jobs;
-    const sorted = sortParentByKeyAndNestedItem(data, "city");
+    const sorted = sortParentByKeyAndNestedItem(
+      data,
+      "city",
+      "asc"
+    );
     expect(data).toBeTruthy();
     expect(data).toEqual(sorted);
   });
 
-  it("should sort results by role", async () => {
+  it("should sort results by role in desc", async () => {
     const { req, res } = createMocks({
       method: "GET",
       query: {
-        "filters[]": "Role" as FilterKeys,
+        "filters[]": JSON.stringify({ Role: "desc" }),
       },
     });
 
@@ -114,23 +121,24 @@ describe("Search job by sort parameters", () => {
     const data = JSON.parse(res._getData()).jobs;
     const sorted = sortParentByKeyAndNestedItem(
       data,
-      "job_title"
+      "job_title",
+      "desc"
     );
     expect(data).toBeTruthy();
     expect(data).toEqual(sorted);
   });
 
-  it("should sort results by all filters", async () => {
+  it("should sort results by all filters in ascending order", async () => {
     const { req, res } = createMocks({
       method: "GET",
       query: {
         "filters[]": [
-          "Location",
-          "Role",
-          "Experience",
-          "Department",
-          "Education",
-        ] as FilterKeys[],
+          JSON.stringify({ Location: "asc" }),
+          JSON.stringify({ Role: "asc" }),
+          JSON.stringify({ Experience: "asc" }),
+          JSON.stringify({ Department: "asc" }),
+          JSON.stringify({ Education: "asc" }),
+        ] as string[],
       },
     });
 
@@ -138,30 +146,35 @@ describe("Search job by sort parameters", () => {
     expect(res._getStatusCode()).toBe(200);
 
     const data = JSON.parse(res._getData()).jobs;
-    let sorted = sortParentByItemsKey(data, "city");
-    sorted = sortParentByKeyAndNestedItem(sorted, "job_title");
-    sorted = sortByNestedItemsKey(sorted, "experience");
-    sorted = sortByNestedItemsKey(sorted, "department");
+    let sorted = sortParentByItemsKey(data, "city", "asc");
+    sorted = sortParentByKeyAndNestedItem(
+      sorted,
+      "job_title",
+      "asc"
+    );
+    sorted = sortByNestedItemsKey(sorted, "experience", "asc");
+    sorted = sortByNestedItemsKey(sorted, "department", "asc");
     sorted = sortByNestedItemsKey(
       sorted,
-      "required_credentials"
+      "required_credentials",
+      "asc"
     );
     expect(data).toBeTruthy();
     expect(data).toEqual(sorted);
   });
 
-  it("should sort results by all filters and search string", async () => {
+  it("should sort results by all filters and search string in descending order", async () => {
     const { req, res } = createMocks({
       method: "GET",
       query: {
         q: "Medicine",
         "filters[]": [
-          "Location",
-          "Role",
-          "Experience",
-          "Department",
-          "Education",
-        ] as FilterKeys[],
+          JSON.stringify({ Location: "desc" }),
+          JSON.stringify({ Role: "desc" }),
+          JSON.stringify({ Experience: "desc" }),
+          JSON.stringify({ Department: "desc" }),
+          JSON.stringify({ Education: "desc" }),
+        ] as string[],
       },
     });
 
@@ -169,13 +182,18 @@ describe("Search job by sort parameters", () => {
     expect(res._getStatusCode()).toBe(200);
 
     const data = JSON.parse(res._getData()).jobs;
-    let sorted = sortParentByItemsKey(data, "city");
-    sorted = sortParentByKeyAndNestedItem(sorted, "job_title");
-    sorted = sortByNestedItemsKey(sorted, "experience");
-    sorted = sortByNestedItemsKey(sorted, "department");
+    let sorted = sortParentByItemsKey(data, "city", "desc");
+    sorted = sortParentByKeyAndNestedItem(
+      sorted,
+      "job_title",
+      "desc"
+    );
+    sorted = sortByNestedItemsKey(sorted, "experience", "desc");
+    sorted = sortByNestedItemsKey(sorted, "department", "desc");
     sorted = sortByNestedItemsKey(
       sorted,
-      "required_credentials"
+      "required_credentials",
+      "desc"
     );
     expect(data).toBeTruthy();
     expect(data).toEqual(sorted);

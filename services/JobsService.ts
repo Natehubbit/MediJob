@@ -1,5 +1,5 @@
 import { server } from "../common/config";
-import { FilterKeys } from "../types/index";
+import { FilterType } from "../types/index";
 
 export default class JobsService {
   static async getJobs() {
@@ -22,7 +22,7 @@ export default class JobsService {
   }
   static async searchJob(
     val?: string,
-    filters?: FilterKeys[]
+    filters?: FilterType[]
   ): Promise<any[]> {
     try {
       const res = await server.get("/jobs", {

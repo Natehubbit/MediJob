@@ -1,4 +1,4 @@
-import { FilterKeys } from "../types/index";
+import { FilterKeys, FilterType } from "../types/index";
 import _ from "lodash";
 import {
   sortByNestedItemsKey,
@@ -47,30 +47,42 @@ export default class ApiService {
       .join("");
   }
 
-  static sortJobsByFilters(data: any, filters: FilterKeys[]) {
+  static sortJobsByFilters(data: any, filters: FilterType[]) {
     try {
       let result: any = data;
       filters &&
-        filters.forEach((key) => {
+        filters.forEach((filter) => {
+          const key = Object.keys(filter)[0] as FilterKeys;
+          const order = filter[key];
           if (key === "Location") {
-            result = sortParentByItemsKey(result, "city");
+            result = sortParentByItemsKey(result, "city", order);
           }
           if (key === "Role") {
             result = sortParentByKeyAndNestedItem(
               result,
-              "job_title"
+              "job_title",
+              order
             );
           }
           if (key === "Experience") {
-            result = sortByNestedItemsKey(result, "experience");
+            result = sortByNestedItemsKey(
+              result,
+              "experience",
+              order
+            );
           }
           if (key === "Department") {
-            result = sortByNestedItemsKey(result, "department");
+            result = sortByNestedItemsKey(
+              result,
+              "department",
+              order
+            );
           }
           if (key === "Education") {
             result = sortByNestedItemsKey(
               result,
-              "required_credentials"
+              "required_credentials",
+              order
             );
           }
         });

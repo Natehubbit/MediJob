@@ -13,17 +13,17 @@ const Navbar = () => {
           <button>
             <Menu />
           </button>
-          <p className="text-lg sm:text-sm md:text-lg text-blue-500 font-medium cursor-pointer">
+          <p className="text-lg whitespace-nowrap sm:text-sm md:text-lg text-blue-500 font-medium cursor-pointer">
             HEALTH EXPLORE
           </p>
         </div>
       </div>
-      <div className="sm:hidden md:flex text-sm justify-between">
+      <div className="sm:hidden overflow-hidden lg:flex md:text-sm justify-between">
         {Object.keys(NAV_MENU).map((k) => {
           const key = k as keyof typeof NAV_MENU;
           return (
             <Link key={k} href={NAV_MENU[key]}>
-              <a className="mx-3 font-bold hover:opacity-50">
+              <a className="mx-3 overflow-hidden overflow-ellipsis whitespace-nowrap font-bold hover:opacity-50">
                 {key.toUpperCase()}
               </a>
             </Link>
@@ -35,7 +35,7 @@ const Navbar = () => {
         <Button className="sm:hidden md:block">
           Create Job
         </Button>
-        <Button className="sm:hidden md:block" mode="text">
+        <Button className="sm:hidden md:block " mode="text">
           Logout
         </Button>
       </div>
