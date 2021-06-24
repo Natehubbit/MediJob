@@ -20,7 +20,7 @@ const Card: FC<CardProps> = ({ title, items }) => {
     modalCtx && setShowMore(modalCtx?.showModal);
   }, [modalCtx?.showModal]);
   const onShowMore = () => {
-    modalCtx?.toggleModal(!showMore);
+    modalCtx?.toggleModal(!showMore, title, items);
     setShowMore(!showMore);
   };
   return (
