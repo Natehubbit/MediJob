@@ -1,8 +1,5 @@
 import { server } from "../common/config";
 import { FilterType } from "../types/index";
-import { createMocks } from "node-mocks-http";
-import jobsHandler from "../pages/api/jobs";
-import filtersHandler from "../pages/api/filters";
 
 export default class JobsService {
   static async getJobs() {
