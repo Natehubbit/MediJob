@@ -5,6 +5,9 @@ import Card from "../components/Card/index";
 import Panel from "../components/Panel/index";
 import { GetStaticProps } from "next";
 import { FilterKeys, FilterType } from "../types/index";
+import filteredData from "../data/filters.json";
+import allJobsData from "../data/jobs.json";
+
 import {
   getCardTitle,
   getItems,
@@ -97,12 +100,10 @@ const Jobs: FC<JobsProps> = ({ jobs, filters }) => {
 };
 
 export const getStaticProps: GetStaticProps = async () => {
-  const jobsData = await JobsService.getJobs();
-  const filtersData = await JobsService.getFilters();
   return {
     props: {
-      jobs: jobsData?.jobs || null,
-      filters: filtersData,
+      jobs: allJobsData || [],
+      filters: filteredData || [],
     },
   };
 };
